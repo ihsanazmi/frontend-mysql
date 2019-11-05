@@ -13,8 +13,8 @@ class Home extends Component {
         button: true
     }
 
-    onDoubleClick = (_id)=>{
-        axios.delete(`/task/delete/${_id}`)
+    onDoubleClick = (id)=>{
+        axios.delete(`/tasks/delete/${id}`)
             .then(res=>{
                 // alert('berhasil dihapus')
                 this.getTask()
@@ -25,14 +25,16 @@ class Home extends Component {
         this.getTask()
     }
 
-    onSubmit = ()=>{
+    onSubmit = (event)=>{
         // get data
-        let userid = this.props._id
+        event.preventDefault()
+        let userid = this.props.id
         let description = this.task.value
 
-        axios.post(`/task/${userid}`,
+        axios.post(`/tasks`,
             {
-                description
+                description,
+                user_id : userid
             }
         ).then(res=>{
         //    alert('Task Berhasil di tambah')
@@ -44,9 +46,9 @@ class Home extends Component {
     }
 
     getTask = ()=>{
-        let userid = this.props._id
+        let userid = this.props.id
 
-        axios.get(`/task/${userid}`,)
+        axios.get(`/tasks/${userid}`,)
             .then(res=>{
                 this.setState({
                     task : res.data
@@ -54,8 +56,8 @@ class Home extends Component {
             })
     }
 
-    done = (_id, completed)=>{
-        axios.patch(`/task/${_id}`,{
+    done = (taskid, completed)=>{
+        axios.patch(`/tasks/update/${taskid}`,{
             completed: !completed
         }).then(res=>{
             this.getTask()
@@ -65,18 +67,18 @@ class Home extends Component {
     }
 
     renderTask = ()=>{
-        if(this.props._id){
+        if(this.props.id){
             return this.state.task.map((item)=>{
                 if(item.completed){
                     return (
-                        <Fade key={item._id} collapse bottom>
-                            <div className="card" onDoubleClick={()=>{this.onDoubleClick(item._id)}}>
+                        <Fade key={item.id} collapse bottom>
+                            <div className="card" onDoubleClick={()=>{this.onDoubleClick(item.id)}}>
                                 <div className="card-body row">
                                     <div className="col-auto mr-auto align-self-center">
                                         <p className="my-auto"><del>{item.description}</del></p>
                                     </div>
                                     <div className="col-auto">
-                                        <button onClick={()=>{this.done(item._id, item.completed)}} className='btn btn-outline-danger'>Cancel</button>
+                                        <button onClick={()=>{this.done(item.id, item.completed)}} className='btn btn-outline-danger'>Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -84,14 +86,14 @@ class Home extends Component {
                     )
                 }else{
                     return (
-                        <Fade key={item._id} collapse bottom>
-                            <div className="card" onDoubleClick={()=>{this.onDoubleClick(item._id)}}>
+                        <Fade key={item.id} collapse bottom>
+                            <div className="card" onDoubleClick={()=>{this.onDoubleClick(item.id)}}>
                                 <div className="card-body row">
                                     <div className="col-auto mr-auto align-self-center">
                                         <p className="my-auto">{item.description}</p>
                                     </div>
                                     <div className="col-auto">
-                                        <button onClick={()=>{this.done(item._id, item.completed)}} className='btn btn-outline-primary'>Done</button>
+                                        <button onClick={()=>{this.done(item.id, item.completed)}} className='btn btn-outline-primary'>Done</button>
                                     </div>
                                 </div>
                             </div>
@@ -121,10 +123,10 @@ class Home extends Component {
                         {this.renderTask()}
                     </TransitionGroup>
                     
-                    <form className="form-group mt-5" autoComplete="off">
+                    <form onSubmit={this.onSubmit} className="form-group mt-5" autoComplete="off">
                         <input ref={(input)=> this.task = input} type="text" className="form-control" placeholder="What do you want to do?"/>
+                        <button type="submit" onClick={this.onSubmit} className="btn btn-primary btn-block mt-2">Up!</button>
                     </form>
-                    <button type="submit" onClick={this.onSubmit} className="btn btn-primary btn-block">Up!</button>
                     
                 </center>
             </div>
@@ -134,7 +136,7 @@ class Home extends Component {
 
 const mapStateToProps =(state)=>{
     return{
-        _id: state.auth._id
+        id: state.auth.id
     }
 }
 

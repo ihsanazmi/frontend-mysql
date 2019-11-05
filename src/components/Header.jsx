@@ -91,7 +91,7 @@ class Header extends Component {
 
 const mapStateToProps = (state)=>{
     return {
-        _id: state.auth._id,
+        id: state.auth.id,
         _username: state.auth.username
     }
 }

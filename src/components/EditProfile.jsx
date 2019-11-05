@@ -10,7 +10,7 @@ class EditProfile extends Component {
     }
 
     componentDidMount(){
-        axios.get(`/users/${this.props._id}`)
+        axios.get(`/users/profile/${this.props.username}`)
             .then((res)=>{
                 this.setState({profile: res.data})
                 // console.log(res.data)
@@ -24,18 +24,16 @@ class EditProfile extends Component {
 
         let name = this.name.value
         let email = this.email.value
-        let age = this.age.value
         let password = this.password.value
         let avatar = this.avatar.files[0]
         // Membuat object dari class FormData
 
         formData.append("name", name)
         formData.append("email", email)
-        formData.append("age", age)
         formData.append("password", password)
         formData.append("avatar", avatar)
 
-        axios.patch(`/users/${this.props._id}`, formData)
+        axios.patch(`/users/${this.props.id}`, formData)
             .then((res)=>{
                 console.log(res.data)
             }).catch((err)=>{
@@ -46,18 +44,16 @@ class EditProfile extends Component {
     render() {
 
         if(!isNull(this.state.profile)){
-            let{name, age, email} = this.state.profile.user
+            let user = this.state.profile
             return (
                 <div className="container">
                     <form>
                         <h1>Edit Profile</h1>
     
                         <h3>Name</h3>
-                        <input ref={(input)=>{this.name = input}} type="text" className="form-control" defaultValue={name}/>
+                        <input ref={(input)=>{this.name = input}} type="text" className="form-control" defaultValue={user.name}/>
                         <h3>Email</h3>
-                        <input ref={(input)=>{this.email = input}} type="text" className="form-control" defaultValue={email}/>
-                        <h3>Age</h3>
-                        <input ref={(input)=>{this.age = input}} type="text" className="form-control" defaultValue={age}/>
+                        <input ref={(input)=>{this.email = input}} type="text" className="form-control" defaultValue={user.email}/>
                         <h3>Password</h3>
                         <input ref={(input)=>{this.password = input}} type="password" className="form-control"/>
                         
@@ -78,7 +74,8 @@ class EditProfile extends Component {
 
 const mapStateToProps = (state)=>{
     return{
-        _id: state.auth._id
+        id: state.auth.id,
+        username: state.auth.username
     }
 }
 

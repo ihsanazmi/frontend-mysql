@@ -24,10 +24,10 @@ class Login extends Component {
                 return alert(res.data.error)
             }
 
-            let {username, _id} = res.data
+            let {username, id} = res.data
 
-            localStorage.setItem('userData', JSON.stringify({username, _id}))
-            this.props.sendData(username, _id)
+            localStorage.setItem('userData', JSON.stringify({username, id}))
+            this.props.sendData(username, id)
             
         }).catch(err=>{
             console.log({err})

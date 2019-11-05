@@ -10,7 +10,6 @@ class Register extends Component {
 
         let _username = this.username.value
         let _name = this.name.value
-        let _age = this.age.value
         let _email = this.email.value
         let _password = this.password.value
 
@@ -19,7 +18,6 @@ class Register extends Component {
             {
                 username: _username,
                 name: _name,
-                age: _age,
                 email: _email,
                 password: _password
             }
@@ -52,10 +50,7 @@ class Register extends Component {
                             <h4>Nama</h4>
                         </div>
                         <input ref={ (asdf) => {this.name = asdf} } className='form-control' type='text'/>
-                        <div className='card-title'>
-                            <h4>Umur</h4>
-                        </div>
-                        <input ref={ (asdf) => {this.age = asdf} } className='form-control' type='text'/>
+                        
                         <div className='card-title'>
                             <h4>Email</h4>
                         </div>
@@ -65,7 +60,7 @@ class Register extends Component {
                             <h4>Password</h4>
                         </div>
                         <input ref={ (input) => {this.password = input} } className='form-control' type='password'/>
-                        <button onClick={this.onSubmitClick} className='btn btn-outline-primary btn-block'>Submit</button>
+                        <button onClick={this.onSubmitClick} className='btn btn-outline-primary btn-block mt-4'>Submit</button>
                     </form>
                 </div>
             </div>

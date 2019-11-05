@@ -11,10 +11,10 @@ class Profile extends Component {
 
     componentDidMount() {
         // Get user
-        axios.get(`/users/${this.props._id}`)
+        axios.get(`/users/profile/${this.props.username}`)
         .then(res => {
             this.setState({profile: res.data})
-            // console.log(res.data)
+            console.log(this.state.profile)
             }).catch(err => {
                 console.log(err)
 
@@ -23,10 +23,10 @@ class Profile extends Component {
 
     render() {
         if(!isNull(this.state.profile)){
-            let {user, avatar} = this.state.profile
+            let user = this.state.profile
             return (
                 <div>
-                    <img src={avatar} alt={user.name}/>
+                    <img src={user.avatar} alt={user.name}/>
                     <h1>Hello, {user.name}</h1>
                     <p>{user.name} | {user.age} | {user.email}</p>
                 </div>
@@ -39,7 +39,8 @@ class Profile extends Component {
 
 const mapStateToProps = (state)=>{
     return {
-        _id: state.auth._id
+        id: state.auth.id,
+        username: state.auth.username
     }
 }
 
