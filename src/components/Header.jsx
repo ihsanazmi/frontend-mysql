@@ -77,7 +77,7 @@ class Header extends Component {
         return (
             <div>
                 <Navbar color="light" light expand="md">
-                    <Link className="navbar-brand" to ="/">Mongoose db</Link>
+                    <Link className="navbar-brand" to ="/">Frontend Mysql</Link>
                     <NavbarToggler onClick={this.toogle}/>
                     <Collapse isOpen = {this.state.isOpen} navbar/>
 

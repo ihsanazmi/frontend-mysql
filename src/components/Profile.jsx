@@ -17,13 +17,13 @@ class Profile extends Component {
             console.log(this.state.profile)
             }).catch(err => {
                 console.log(err)
-
             })
     }
 
     render() {
         if(!isNull(this.state.profile)){
             let user = this.state.profile
+            console.log(user.avatar)
             return (
                 <div>
                     <img src={user.avatar} alt={user.name}/>

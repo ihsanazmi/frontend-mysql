@@ -30,10 +30,10 @@ class EditProfile extends Component {
 
         formData.append("name", name)
         formData.append("email", email)
-        formData.append("password", password)
-        formData.append("avatar", avatar)
+        if(password) formData.append("password", password)
+        if(avatar) formData.append("avatar", avatar)
 
-        axios.patch(`/users/${this.props.id}`, formData)
+        axios.patch(`/users/update/${this.props.username}`, formData)
             .then((res)=>{
                 console.log(res.data)
             }).catch((err)=>{
